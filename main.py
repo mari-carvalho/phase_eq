@@ -2,7 +2,7 @@
 import numpy as np
 import math as mt
 import matplotlib.pyplot as plt
-import ki_est as ki
+from ki_est import calculate_Ki
 import rachford_rice as rr
 import busc_incre as b_i
 import prop_red as pr
@@ -15,10 +15,10 @@ list_Pc = np.array([667.0286, 706.6239, 616.1203, 550.5633, 1069.5, 488.7772, 49
 print('Pc', list_Pc)
 list_Tc = np.array([343.008, 549.576, 665.694, 765.216, 547.416, 845.46, 227.16, 1111.9, 1150.2, 1184.4])
 print('Tc', list_Tc)
-list_wi = np.array([0.011, 0.099, 0.152, 0.2, 0.225, 0.252, 0.037, 0.49, 0.537, 0.576])
+list_wi = np.array([0.011, 0.099, 0.152, 0.2, 0.225, 0.252, 0.037, 0.49, 0.537, 0.576]) # DIMINUIR O NÚMERO DE COMPONENTES 
 print('wi', list_wi)
-P = 800
-T = 365
+P = 800 # MUDAR AS PROPRIEDADES PARA O SI 
+T = 365 
 V = np.linspace(0,5, num=10)
 print(V)
 f = np.zeros((len(V), len(list_wi))) # cria-se uma matriz com o número de linhas correspondente ao tamanho do vetor V (quão grande é o intervalo de chutes) e o número de colunas correspondente ao número de propriedades estimadas
@@ -30,8 +30,8 @@ print(f_)
 eec = input('Escolha a EEC a ser usada para Cálculo: SRK ou PR:')
 
 # Estimativa do valor de Ki:
-Ki = ki.calculate_Ki(P, T, list_Pc, list_Tc, list_wi)
-print(list_Ki)
+Ki = calculate_Ki(P, T, list_Pc, list_Tc, list_wi)
+print(Ki)
 
 # Rachford-Rice:
 f = rr.calculate_f(V, list_Zi, list_Ki, list_wi)
