@@ -2,11 +2,10 @@
 import numpy as np
 import math as mt
 import matplotlib.pyplot as plt
-import main as m
 
 # Newton-Raphson:
 # Newton-Rapshon: sem busca incremental
-def calculate_NR(list_wi:float, list_Zi:float, list_Ki:float) -> float:
+def calculate_NR(list_wi:np.ndarray, list_Zi:np.ndarray, Ki:np.ndarray) -> float:
 
   inter = 0
   Vr = 0.5
@@ -15,8 +14,8 @@ def calculate_NR(list_wi:float, list_Zi:float, list_Ki:float) -> float:
   while (1):
     V_old = Vr
     for n in range(len(list_wi)):
-      f = f + (list_Zi[n]*(list_Ki[n]-1))/(1 - Vr + Vr*(list_Ki[j]))
-      f_ = f_ - (list_Zi[n]*((list_Ki[n]-1)**2))/((1 + Vr*(list_Ki[n])-1)**2)
+      f = f + (list_Zi[n]*(Ki[n]-1))/(1 - Vr + Vr*(Ki[j]))
+      f_ = f_ - (list_Zi[n]*((Ki[n]-1)**2))/((1 + Vr*(Ki[n])-1)**2)
     Vr = Vr - f/f_
     err = abs(Vr-V_old)/100
     inter = inter + 1
@@ -24,6 +23,3 @@ def calculate_NR(list_wi:float, list_Zi:float, list_Ki:float) -> float:
       break
 
   return Vr
-
-Vr = calculate_NR(m.list_wi, m.list_Zi, m.list_Ki)
-print('O valor de V é:', Vr)

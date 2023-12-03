@@ -2,7 +2,6 @@
 import numpy as np
 import math as mt
 import matplotlib.pyplot as plt
-import main as m
 
 # Cálculo das Frações Molares:
 def calculate_xi(V:np.ndarray, list_Zi:np.ndarray, list_Ki:np.ndarray, Vr:float, list_wi:np.ndarray) -> np.ndarray:
@@ -23,8 +22,3 @@ def calculate_yi(V:np.ndarray, list_Zi:np.ndarray, list_Ki:np.ndarray, Vr:float,
 
   return yi
 
-xi = calculate_xi(m.V, m.list_Zi, m.list_Ki, m.Vr, m.list_wi)
-print(xi)
-
-yi = calculate_yi(m.V, m.list_Zi, m.list_Ki, m.Vr, list_wi)
-print(yi)
