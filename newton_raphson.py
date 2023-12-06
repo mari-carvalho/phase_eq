@@ -23,3 +23,9 @@ def calculate_NR(list_wi:np.ndarray, list_Zi:np.ndarray, Ki:np.ndarray) -> float
       break
 
   return Vr
+
+def calculate_L(Vr: float) -> float:
+
+  L = 1- Vr
+
+  return L
