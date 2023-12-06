@@ -2,12 +2,14 @@
 import numpy as np
 import math as mt
 import matplotlib.pyplot as plt
+import scipy 
 from ki_est import calculate_Ki
 from frac_mol import calculate_xi, calculate_yi
 from rachford_rice import calculate_f, calculate_f_, calculate_RR
 from newton_raphson import calculate_NR
 from prop_red import calculate_ppr, calculate_tpr
 from parametros_eec import calculate_mwi, calculate_Ai, calculate_Aij, calculate_A_gas, calculate_A_liq, calculate_B_gas, calculate_B_liq, calculate_Bi, calculate_A_final_gas, calculate_A_final_liq, calculate_B_final_gas, calculate_B_final_liq
+from factor_Z import calculate_Z_liq
 from factor_Z import calculate_Z_gas
 
 # Dados - Iniciando as Listas:
@@ -32,6 +34,24 @@ R = 8.31
 # Escolha da Equação de Estado Cúbica a ser utilizada para Cálculo:
 eec = input('Escolha a equação de estado cúbica a ser utilizada, 1 para SRK e 2 para PR:')
 
+# Parâmetros das Correlações:
+if eec == 'SRK':
+    ohm_b = 0.08664
+elif eec == 'PR':
+    ohm_b = 0.0778
+
+if eec == 'SRK':
+    ohm_a = 0.42748
+elif eec == 'PR':
+    ohm_a = 0.45724
+
+if eec == 'PR':
+    delta_1 = 1 + np.sqrt(2)
+    delta_2 = 1 - np.sqrt(2)
+elif eec == 'SRK':
+    delta_1 = 0
+    delta_2 = 1    
+
 # Estimativa do valor de Ki:
 Ki = calculate_Ki(P, T, list_Pc, list_Tc, list_wi)
 print(Ki)
@@ -47,8 +67,8 @@ RR = calculate_RR(V, f)
 print('RR', RR)
 
 # Busca Incremental:
-busc_incr = calculate_busc_incr(V, RR)
-print('xb', xb)
+#busc_incr = calculate_busc_incr(V, RR)
+#print('xb', xb)
 
 # Propriedades Pseudo-Reduzidas:
 ppr = calculate_ppr(P, list_Pc)
@@ -59,7 +79,7 @@ print('tpr', tpr)
 
 # Parâmetros da eec:
 # Cálculo dos Parâmetros Bi:
-Bi = calculate_Bi(ppr, tpr, list_wi)
+Bi = calculate_Bi(ppr, tpr, list_wi, eec)
 print('Bi', Bi)
 
 # Cálculo de Vr:
@@ -121,7 +141,11 @@ B_final_liq = calculate_B_final_liq(B_liq, P, R, T)
 print(B_final_liq)
 
 # Cálculo do fator Z do gás:
-Z = calculate_Z_gas(B_final_gas, A_final_gas)
-print('Z', Z)
+Z_liq = calculate_Z_liq(func_Z_liq)
+print('Z_liq', Z_liq)
+
+# Cálculo do fator Z do gás:
+Z_gas = calculate_Z_gas(func_Z_gas)
+print('Z_liq', Z_gas)
 
 

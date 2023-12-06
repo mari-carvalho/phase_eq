@@ -5,14 +5,9 @@ import matplotlib.pyplot as plt
 
 
 # Cálculo dos Parâmetros Bi:
-def calculate_Bi(ppr:np.ndarray, tpr:np.ndarray, list_wi:np.ndarray) -> np.ndarray:
+def calculate_Bi(ppr:np.ndarray, tpr:np.ndarray, list_wi:np.ndarray, ohm_b) -> np.ndarray:
 
   Bi = np.zeros(len(list_wi))
-
-  if eec == 'SRK':
-    ohm_b = 0.08664
-  elif eec == 'PR':
-    ohm_b = 0.0778
 
   for i in range(len(list_wi)):
     Bi[i] = ohm_b*(ppr[i]/tpr[i])
@@ -36,7 +31,7 @@ def calculate_B_liq(Bi:np.ndarray, xi:np.ndarray, list_wi:np.ndarray) -> float:
   return B_liq
 
 # Cálculo de mwi:
-def calculate_mwi(list_wi:np.ndarray) -> np.ndarray:
+def calculate_mwi(list_wi:np.ndarray, eec: str) -> np.ndarray:
 
   mwi = np.zeros(len(list_wi))
 
@@ -52,14 +47,9 @@ def calculate_mwi(list_wi:np.ndarray) -> np.ndarray:
   return mwi
 
 # Cálculo de Ai:
-def calculate_Ai(ppr:np.ndarray, tpr:np.ndarray, mwi:np.ndarray, list_wi:np.ndarray) -> np.ndarray:
+def calculate_Ai(ppr:np.ndarray, tpr:np.ndarray, mwi:np.ndarray, list_wi:np.ndarray, ohm_a: float) -> np.ndarray:
 
   Ai = np.zeros(len(list_wi))
-
-  if eec == 'SRK':
-    ohm_a = 0.42748
-  elif eec == 'PR':
-    ohm_a = 0.45724
 
   for i in range(len(list_wi)):
     Ai[i] = ohm_a*(ppr[i]/(tpr[i]**2))*(1+mwi[i]*(1-mt.sqrt(tpr[i])))**2
