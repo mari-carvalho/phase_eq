@@ -8,6 +8,7 @@ from rachford_rice import calculate_f, calculate_f_, calculate_RR
 from newton_raphson import calculate_NR
 from prop_red import calculate_ppr, calculate_tpr
 from parametros_eec import calculate_mwi, calculate_Ai, calculate_Aij, calculate_A_gas, calculate_A_liq, calculate_B_gas, calculate_B_liq, calculate_Bi, calculate_A_final_gas, calculate_A_final_liq, calculate_B_final_gas, calculate_B_final_liq
+from factor_Z import calculate_Z_gas
 
 # Dados - Iniciando as Listas:
 list_Zi = np.array([0.5, 0.5])
@@ -29,7 +30,7 @@ print(f_)
 R = 8.31
 
 # Escolha da Equação de Estado Cúbica a ser utilizada para Cálculo:
-eec = input('Escolha a EEC a ser usada para Cálculo: SRK ou PR:')
+eec = input('Escolha a equação de estado cúbica a ser utilizada, 1 para SRK e 2 para PR:')
 
 # Estimativa do valor de Ki:
 Ki = calculate_Ki(P, T, list_Pc, list_Tc, list_wi)
@@ -119,6 +120,8 @@ print(B_final_gas)
 B_final_liq = calculate_B_final_liq(B_liq, P, R, T)
 print(B_final_liq)
 
-
+# Cálculo do fator Z do gás:
+Z = calculate_Z_gas(B_final_gas, A_final_gas)
+print('Z', Z)
 
 

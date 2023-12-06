@@ -2,7 +2,7 @@
 import numpy as np
 import math as mt
 import matplotlib.pyplot as plt
-import main as m
+
 
 # Cálculo das Pressões Temperaturas Pseudo-Reduzidas:
 def calculate_ppr(P:float, list_Pc:np.ndarray) -> np.ndarray:
