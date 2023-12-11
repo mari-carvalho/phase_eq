@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 # Cálculo dos Parâmetros Bi:
-def calculate_Bi(ppr:np.ndarray, tpr:np.ndarray, list_wi:np.ndarray, ohm_b) -> np.ndarray:
+def calculate_Bi(ppr:np.ndarray, tpr:np.ndarray, list_wi:np.ndarray, ohm_b:float) -> np.ndarray:
 
   Bi = np.zeros(len(list_wi))
 
@@ -17,21 +17,25 @@ def calculate_Bi(ppr:np.ndarray, tpr:np.ndarray, list_wi:np.ndarray, ohm_b) -> n
 # Cálculo de B_gas:
 def calculate_B_gas(Bi:np.ndarray, yi:np.ndarray, list_wi:np.ndarray) -> float:
 
+  B_gas = 0
+
   for i in range(len(yi)):
-    B_gas = Bi[i]*yi[i] + B_gas[i-1]
+    B_gas = Bi[i]*yi[i] + B_gas
 
   return B_gas
 
 # Cálculo de B_liq:
 def calculate_B_liq(Bi:np.ndarray, xi:np.ndarray, list_wi:np.ndarray) -> float:
 
+  B_liq = 0
+
   for i in range(len(xi)):
-    B_liq = Bi[i]*xi[i] + B_liq[i-1]
+    B_liq = Bi[i]*xi[i] + B_liq
 
   return B_liq
 
 # Cálculo de mwi:
-def calculate_mwi(list_wi:np.ndarray, eec: str) -> np.ndarray:
+def calculate_mwi(list_wi:np.ndarray, eec:str) -> np.ndarray:
 
   mwi = np.zeros(len(list_wi))
 
@@ -47,7 +51,7 @@ def calculate_mwi(list_wi:np.ndarray, eec: str) -> np.ndarray:
   return mwi
 
 # Cálculo de Ai:
-def calculate_Ai(ppr:np.ndarray, tpr:np.ndarray, mwi:np.ndarray, list_wi:np.ndarray, ohm_a: float) -> np.ndarray:
+def calculate_Ai(ppr:np.ndarray, tpr:np.ndarray, mwi:np.ndarray, list_wi:np.ndarray, ohm_a:float) -> np.ndarray:
 
   Ai = np.zeros(len(list_wi))
 
@@ -57,31 +61,34 @@ def calculate_Ai(ppr:np.ndarray, tpr:np.ndarray, mwi:np.ndarray, list_wi:np.ndar
   return Ai
 
 # Cálculo de Aij:
-def calculate_Aij(Ai:np.ndarray, list_Ki:np.ndarray, list_wi:np.ndarray) -> np.ndarray:
+def calculate_Aij(Ai:np.ndarray, Ki:np.ndarray, list_wi:np.ndarray) -> np.ndarray:
 
   Aij = np.zeros((len(list_wi), len(list_wi)))
 
   for i in range(len(list_wi)):
     for j in range(len(list_wi)):
-      Aij[i,j] = (mt.sqrt(Ai[i]*Ai[j]))*(1-list_Ki[j])
+      Aij[i,j] = (mt.sqrt(Ai[i]*Ai[j]))*(1-Ki[j])
 
   return Aij
 
 # Cálculo de A_gas:
 def calculate_A_gas(yi:np.ndarray, Aij:np.ndarray) -> float:
 
+  A_gas = 0
+
   for i in range(len(Aij)):
     for j in range(len(Aij)):
-      A_gas = yi[i]*yi[j]*Aij[i] + A_gas[i-1]
-
+      A_gas = yi[i]*yi[j]*Aij[i] + A_gas
   return A_gas
 
 # Cálculo de A_liq:
 def calculate_A_liq(xi:np.ndarray, Aij:np.ndarray) -> float:
 
+  A_liq = 0
+
   for i in range(len(Aij)):
     for j in range(len(Aij)):
-      A_liq = xi[i]*xi[j]*Aij[i] + A_liq[i-1]
+      A_liq = xi[i]*xi[j]*Aij[i] + A_liq
 
   return A_liq
 
