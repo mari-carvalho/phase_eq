@@ -16,16 +16,12 @@ def calculate_NR(list_wi:np.ndarray, list_Zi:np.ndarray, Ki:np.ndarray) -> float
     for n in range(len(list_wi)):
       f = f + (list_Zi[n]*(Ki[n]-1))/(1 - Vr + Vr*(Ki[j]))
       f_ = f_ - (list_Zi[n]*((Ki[n]-1)**2))/((1 + Vr*(Ki[n])-1)**2)
-    Vr = Vr - f/f_
-    err = abs(Vr-V_old)/100
-    inter = inter + 1
+      Vr = Vr - f/f_
+      err = abs(Vr-V_old)/100
+      inter = inter + 1
     if err < (1*10**-6) or inter == 1000:
+      L = 1 - Vr
       break
 
-  return Vr
+  return Vr, L
 
-def calculate_L(Vr: float) -> float:
-
-  L = 1- Vr
-
-  return L
