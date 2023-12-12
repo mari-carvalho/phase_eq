@@ -31,7 +31,7 @@ def calculate_phi_gas(Aij:np.ndarray, yi:np.ndarray, list_wi:np.ndarray) -> np.n
     
     return phi_gas
 
-def calculate_phi_fug_liq(Bi: np.ndarray, B_final_liq:float, A_final_liq:float, delta_1:float, delta_2: float, list_wi:np.ndarray, Z_liq:float, Delta:float, phi_liq:np.ndarray) -> np.ndarray:
+def calculate_phi_fug_liq(Bi:np.ndarray, B_final_liq:float, A_final_liq:float, delta_1:float, delta_2:float, list_wi:np.ndarray, Z_liq:float, Delta:float, phi_liq:np.ndarray) -> np.ndarray:
 
     phi_fug_liq = np.zeros(len(list_wi))
     

@@ -4,7 +4,7 @@ import math as mt
 import matplotlib.pyplot as plt
 
 # Cálculo das Frações Molares:
-def calculate_xi(V:np.ndarray, list_Zi:np.ndarray, Ki:np.ndarray, Vr:float, list_wi:np.ndarray) -> np.ndarray:
+def calculate_xi(list_Zi:np.ndarray, Ki:np.ndarray, Vr:float, list_wi:np.ndarray) -> np.ndarray:
 
   xi = np.zeros(len(list_wi))
 
@@ -13,7 +13,7 @@ def calculate_xi(V:np.ndarray, list_Zi:np.ndarray, Ki:np.ndarray, Vr:float, list
 
   return xi
 
-def calculate_yi(V:np.ndarray, list_Zi:np.ndarray, Ki:np.ndarray, Vr:float, list_wi:np.ndarray) -> np.ndarray:
+def calculate_yi(list_Zi:np.ndarray, Ki:np.ndarray, Vr:float, list_wi:np.ndarray) -> np.ndarray:
 
   yi = np.zeros(len(list_wi))
 
