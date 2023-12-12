@@ -13,16 +13,17 @@ from factor_Z import calculate_Z_liq
 from factor_Z import calculate_Z_gas
 from fugacity import calculate_Delta, calculate_phi_gas, calculate_phi_liq, calculate_phi_fug_gas, calculate_phi_fug_liq, calculate_fugacity_gas, calculate_fugacity_liq
 from eq_phase import calculate_eq_phase
-
+from massa_especific import calculate_M_liq, calculate_M_gas, calculate_rho_o, calculate_rho_g
 # Dados - Iniciando as Listas:
 list_Zi = np.array([0.5, 0.5])
 print('Zi', list_Zi)
-list_Pc = np.array([45.99*10**5, 73.74*10**5])
+list_Pc = np.array([45.99*10**5, 73.74*10**5]) # Pa
 print('Pc', list_Pc)
-list_Tc = np.array([190.56, 304.12])
+list_Tc = np.array([190.56, 304.12]) # K
 print('Tc', list_Tc)
 list_wi = np.array([0.011, 0.225]) 
 print('wi', list_wi)
+M = np.array([12, 44.01])
 P = 50*10**5
 T = 220
 V = np.linspace(0,5, num=10)
@@ -157,8 +158,20 @@ print('fugacity_liq', fugacity_liq)
 fugacity_gas = calculate_fugacity_gas(phi_fug_gas, P, yi, list_wi)
 print('fugacity_gas', fugacity_gas)
 
+# Equilíbrio de Fases:
 eq_phase = calculate_eq_phase(list_wi)
 
+# Cálculo das Massas Específicas:
+M_liq = calculate_M_liq(xi, list_wi, M)
+print('M_liq', M_liq)
 
+M_gas= calculate_M_gas(yi, list_wi, M)
+print('M_gas', M_gas)
+
+rho_o = calculate_rho_o(M_liq, P, R, T, Z_liq)
+print('rgo_o', rho_o)
+
+rho_g = calculate_rho_g(M_gas, P, R, T, Z_gas)
+print('rgo_g', rho_g)
 
 
