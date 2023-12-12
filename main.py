@@ -17,7 +17,7 @@ print('wi', list_wi)
 M = np.array([12, 44.01])
 P = 50*10**5
 T = 220
-V = np.linspace(0,5, num=10)
+V = np.linspace(0, 5, num=10)
 print(V)
 f = np.zeros((len(V), len(list_wi))) # cria-se uma matriz com o número de linhas correspondente ao tamanho do vetor V (quão grande é o intervalo de chutes) e o número de colunas correspondente ao número de propriedades estimadas
 print(f)

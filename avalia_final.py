@@ -145,5 +145,6 @@ def calculate_avalia_final(list_wi:np.ndarray, P:float, T:float, list_Pc:np.ndar
         else: 
             for i in range(len(list_wi)):
                 Ki[i] = (Ki[i])*((fugacity_liq[i])/(fugacity_gas[i]))
+            return Ki
 
-    return avalia
+
