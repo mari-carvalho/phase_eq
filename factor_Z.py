@@ -40,33 +40,31 @@ def calculate_Z_gas(func_Z_gas) -> float:
     return Z_gas'''
 
 # Z novo
-def calculate_Z_liq(delta_1:float, delta_2:float, B_final_liq:np.ndarray, A_final_liq: np.ndarray) -> float:
+def calculate_Z_liq(delta_1:float, delta_2:float, B_final_liq:float, A_final_liq:float) -> float:
     
     C1 = 1.
     C2 = ((delta_1 + delta_2 -1)*B_final_liq-1)
     C3 = (A_final_liq + delta_1*delta_2*B_final_liq**2) - (delta_1+delta_2) *B_final_liq*(B_final_liq + 1)
     C4 = -(A_final_liq*B_final_liq + delta_1*delta_2*B_final_liq**2 * (B_final_liq+1))
 
-    inter = 0                              # cálculo das interações 
-    Z_liq = 0.5                                  # primeiro valor de z a ser testado 
-    error = 1  
-    tol = 1*10**-3                                               # tolerância para que o looping continue acontecendo 
-    dz_liq = 1*10**-5                                     # valor da diferencial 
+    Z_liq = 1.0                                # primeiro valor de z a ser testado 
     func_liq = C1*Z_liq**3 + C2*Z_liq**2 + C3*Z_liq + C4            # função de Newton-Raphson 
-    func2_liq = C1*(Z_liq+dz_liq )**3 + C2*(Z_liq+dz_liq )**2 + C3*(Z_liq+dz_liq ) + C4
-    dfunc_liq = 0
-    while 1:                               # enquanto o erro for menor que a tolerância (1e-3), o looping vai acontecer 
-        Z_old = Z_liq                             # o novo valor de z a ser testado é inserido no lugar do z antigo (0.5 - primeiro)
-        for i in range(0,9):
-            dfunc_liq  = func2_liq - func_liq/dz_liq      # deriavada numérica, não analítica - onde dz não pode ser muito pequeno, pois é um denomidador 
-            Z_liq = Z_liq - func_liq/dfunc_liq                        # um novo valor de z é calculado com base na função de z e em sua derivada
-            error = abs(Z_liq - Z_old)        # cálculo do erro                                                            
-            inter = inter + 1                
-                                    
-        if np.all(error < tol):
-            break
+
+    itMax = 100
+    for it in range(itMax):
+        Dfunc_liqDZliq = 3.0*C1*Z_liq**2 + 2.0*C2*Z_liq + C3
+        Z_liq = Z_liq - func_liq/Dfunc_liqDZliq
+        func_liq = C1*Z_liq**3 + C2*Z_liq**2 + C3*Z_liq + C4            # função de Newton-Raphson
+        print("iteration : ", it)
+        print("func_liq : ", func_liq)
+        print("Z_liq : ", Z_liq)
+        if func_liq < 1.0e-6:
+            return Z_liq
+        
+    print("Newton Raphson nao convergiu para calcilate_Z_liq")
+    return
     
-    return Z_liq
+    
 
 def calculate_Z_gas(delta_1:float, delta_2:float, B_final_gas:np.ndarray, A_final_gas: np.ndarray) -> float:
     

@@ -13,6 +13,8 @@ def calculate_NR(list_wi:np.ndarray, list_Zi:np.ndarray, Ki:np.ndarray) -> float
   f_ = 0
   while True:
     V_old = Vr
+    f = 0
+    f_ = 0
     for i in range(len(list_wi)):
       f = f + (list_Zi[i]*(Ki[i]-1))/(1 - Vr + Vr*(Ki[i]))
       f_ = f_ - ((list_Zi[i]*((Ki[i]-1)**2))/((1 + Vr*(Ki[i])-1)**2))

@@ -29,7 +29,7 @@ def calculate_avalia_final(list_wi:np.ndarray, P:float, T:float, list_Pc:np.ndar
 
         # Parâmetros da eec:
         # Cálculo dos Parâmetros Bi:
-        Bi = calculate_Bi(ppr, tpr, list_wi, ohm_b)
+        Bi = calculate_Bi(list_Tc, list_Pc, R, list_wi, ohm_b)
         print('Bi', Bi)
 
         # Cálculo de Vr/RR: vai retornar Vr e L
@@ -61,7 +61,7 @@ def calculate_avalia_final(list_wi:np.ndarray, P:float, T:float, list_Pc:np.ndar
         print('mwi', mwi)
 
         # Cálculo de Ai:
-        Ai = calculate_Ai(ppr, tpr, mwi, list_wi, ohm_a)
+        Ai = calculate_Ai(tpr, list_Tc, list_Pc, R, mwi, list_wi, ohm_a)
         print('Ai', Ai)
 
         # Cálculo de Aij:

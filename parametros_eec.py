@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 
 
 # Cálculo dos Parâmetros Bi:
-def calculate_Bi(ppr:np.ndarray, tpr:np.ndarray, list_wi:np.ndarray, ohm_b:float) -> np.ndarray:
+def calculate_Bi(list_Tc:np.ndarray, list_Pc:np.ndarray, R:float, list_wi:np.ndarray, ohm_b:float) -> np.ndarray:
 
   Bi = np.zeros(len(list_wi))
 
   for i in range(len(list_wi)):
-    Bi[i] = ohm_b*(ppr[i]/tpr[i])
+    Bi[i] = ohm_b*R*(list_Tc[i]/list_Pc[i])
 
   return Bi
 
@@ -51,12 +51,12 @@ def calculate_mwi(list_wi:np.ndarray, eec:str) -> np.ndarray:
   return mwi
 
 # Cálculo de Ai:
-def calculate_Ai(ppr:np.ndarray, tpr:np.ndarray, mwi:np.ndarray, list_wi:np.ndarray, ohm_a:float) -> np.ndarray:
+def calculate_Ai(tpr:np.ndarray, list_Tc:np.ndarray, list_Pc:np.ndarray, R:float, mwi:np.ndarray, list_wi:np.ndarray, ohm_a:float) -> np.ndarray:
 
   Ai = np.zeros(len(list_wi))
 
   for i in range(len(list_wi)):
-    Ai[i] = ohm_a*(ppr[i]/(tpr[i]**2))*(1+mwi[i]*(1-mt.sqrt(tpr[i])))**2
+    Ai[i] = ohm_a*R**2*(list_Tc[i]**2/(list_Pc[i]))*(1+mwi[i]*(1-mt.sqrt(tpr[i])))**2
 
   return Ai
 
@@ -64,11 +64,12 @@ def calculate_Ai(ppr:np.ndarray, tpr:np.ndarray, mwi:np.ndarray, list_wi:np.ndar
 def calculate_Aij(Ai:np.ndarray, Ki:np.ndarray, list_wi:np.ndarray) -> np.ndarray:
 
   Aij = np.zeros((len(list_wi), len(list_wi)))
+  Kij = np.array([Ki, Ki])
 
   for i in range(len(list_wi)):
     for j in range(len(list_wi)):
-      Aij[i,j] = (mt.sqrt(Ai[i]*Ai[j]))*(1-Ki[j])
-
+      Aij[i,j] = (mt.sqrt(Ai[i]*Ai[j]))*(1-Kij[i,j])
+  
   return Aij
 
 # Cálculo de A_gas:
@@ -78,7 +79,7 @@ def calculate_A_gas(yi:np.ndarray, Aij:np.ndarray) -> float:
 
   for i in range(len(Aij)):
     for j in range(len(Aij)):
-      A_gas = yi[i]*yi[j]*Aij[i] + A_gas
+      A_gas = yi[i]*yi[j]*Aij[i,j] + A_gas
   return A_gas
 
 # Cálculo de A_liq:
@@ -88,7 +89,7 @@ def calculate_A_liq(xi:np.ndarray, Aij:np.ndarray) -> float:
 
   for i in range(len(Aij)):
     for j in range(len(Aij)):
-      A_liq = xi[i]*xi[j]*Aij[i] + A_liq
+      A_liq = xi[i]*xi[j]*Aij[i,j] + A_liq
 
   return A_liq
 
