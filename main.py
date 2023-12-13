@@ -14,8 +14,8 @@ list_Tc = np.array([190.56, 304.12]) # K
 print('Tc', list_Tc)
 list_wi = np.array([0.011, 0.225]) 
 print('wi', list_wi)
-M = np.array([12, 44.01])
-P = 50*10**5
+M = np.array([16.043, 44.01])
+P = 30*10**5
 T = 220
 V = np.linspace(0, 5, num=10)
 print(V)

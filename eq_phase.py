@@ -9,7 +9,7 @@ def calculate_eq_phase(fugacity_liq:np.ndarray, fugacity_gas:np.ndarray, list_wi
 
     for i in range(len(list_wi)):
         
-        eq_phase += ((fugacity_liq[i])/(fugacity_gas[i]) -1)**2 
+        eq_phase = ((fugacity_liq[i])/(fugacity_gas[i]) -1)**2 + eq_phase
 
     return eq_phase
 

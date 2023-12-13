@@ -34,6 +34,16 @@ def calculate_B_liq(Bi:np.ndarray, xi:np.ndarray, list_wi:np.ndarray) -> float:
 
   return B_liq
 
+# Cálculo de Ai:
+def calculate_Ai(list_Tc:np.ndarray, list_Pc:np.ndarray, R:float, list_wi:np.ndarray, ohm_a:float) -> np.ndarray:
+
+  Ai = np.zeros(len(list_wi))
+
+  for i in range(len(list_wi)):
+    Ai[i] = ohm_a*R**2*(list_Tc[i]**2/(list_Pc[i]))
+
+  return Ai
+
 # Cálculo de mwi:
 def calculate_mwi(list_wi:np.ndarray, eec:str) -> np.ndarray:
 
@@ -50,46 +60,48 @@ def calculate_mwi(list_wi:np.ndarray, eec:str) -> np.ndarray:
 
   return mwi
 
-# Cálculo de Ai:
-def calculate_Ai(tpr:np.ndarray, list_Tc:np.ndarray, list_Pc:np.ndarray, R:float, mwi:np.ndarray, list_wi:np.ndarray, ohm_a:float) -> np.ndarray:
+def calculate_alpha(mwi:np.ndarray, list_Tc:np.ndarray, T:float, list_wi:np.ndarray) -> np.ndarray:
 
-  Ai = np.zeros(len(list_wi))
+  alpha = np.zeros(len(list_wi))
 
   for i in range(len(list_wi)):
-    Ai[i] = ohm_a*R**2*(list_Tc[i]**2/(list_Pc[i]))*(1+mwi[i]*(1-mt.sqrt(tpr[i])))**2
 
-  return Ai
+    alpha[i] = mt.sqrt((1 + mwi[i] * (1 - mt.sqrt(T/list_Tc[i])))** 2)
+
+  return alpha
 
 # Cálculo de Aij:
-def calculate_Aij(Ai:np.ndarray, Ki:np.ndarray, list_wi:np.ndarray) -> np.ndarray:
+def calculate_Aij(Ai:np.ndarray, list_wi:np.ndarray) -> np.ndarray:
 
   Aij = np.zeros((len(list_wi), len(list_wi)))
-  Kij = np.array([Ki, Ki])
+
 
   for i in range(len(list_wi)):
     for j in range(len(list_wi)):
-      Aij[i,j] = (mt.sqrt(Ai[i]*Ai[j]))*(1-Kij[i,j])
+      Aij[i,j] = (mt.sqrt(Ai[i]*Ai[j]))
   
   return Aij
 
 # Cálculo de A_gas:
-def calculate_A_gas(yi:np.ndarray, Aij:np.ndarray) -> float:
+def calculate_A_gas(yi:np.ndarray, Aij:np.ndarray, alpha:np.ndarray, Ki:np.ndarray) -> float:
 
   A_gas = 0
+  Kij = np.array([Ki, Ki])
 
   for i in range(len(Aij)):
     for j in range(len(Aij)):
-      A_gas = yi[i]*yi[j]*Aij[i,j] + A_gas
+      A_gas = yi[i]*yi[j]*Aij[i,j]*alpha[i]*alpha[j]*(1-Kij[i,j])+ A_gas
   return A_gas
 
 # Cálculo de A_liq:
-def calculate_A_liq(xi:np.ndarray, Aij:np.ndarray) -> float:
+def calculate_A_liq(xi:np.ndarray, Aij:np.ndarray, alpha:np.ndarray, Ki:np.ndarray) -> float:
 
   A_liq = 0
+  Kij = np.array([Ki, Ki])
 
   for i in range(len(Aij)):
     for j in range(len(Aij)):
-      A_liq = xi[i]*xi[j]*Aij[i,j] + A_liq
+      A_liq = xi[i]*xi[j]*Aij[i,j]*alpha[i]*alpha[j]*(1-Kij[i,j]) + A_liq
 
   return A_liq
 
