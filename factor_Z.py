@@ -12,7 +12,7 @@ def calculate_Z_liq(delta_1:float, delta_2:float, B_final_liq:float, A_final_liq
     C3 = (A_final_liq + delta_1*delta_2*B_final_liq**2) - (delta_1+delta_2) *B_final_liq*(B_final_liq + 1)
     C4 = -(A_final_liq*B_final_liq + delta_1*delta_2*B_final_liq**2 * (B_final_liq+1))
 
-    Z_liq = 0.11                              # primeiro valor de z a ser testado
+    Z_liq = 1.0                              # primeiro valor de z a ser testado
     func_liq = C1*Z_liq**3 + C2*Z_liq**2 + C3*Z_liq + C4            # função de Newton-Raphson 
 
     itMax = 100
@@ -23,7 +23,7 @@ def calculate_Z_liq(delta_1:float, delta_2:float, B_final_liq:float, A_final_liq
         print("iteration : ", it)
         print("func_liq : ", func_liq)
         print("Z_liq : ", Z_liq)
-        if func_liq < 1.0e-6:
+        if abs(func_liq) < 1.0e-6:
             return Z_liq
         
     print("Newton Raphson nao convergiu para calcilate_Z_liq")
@@ -36,7 +36,7 @@ def calculate_Z_gas(delta_1: float, delta_2: float, B_final_gas: float, A_final_
     C3 = (A_final_gas + delta_1 * delta_2 * B_final_gas ** 2) - (delta_1 + delta_2) * B_final_gas * (B_final_gas + 1)
     C4 = -(B_final_gas * B_final_gas + delta_1 * delta_2 * B_final_gas ** 2 * (B_final_gas + 1))
 
-    Z_gas = 0.6 # primeiro valor de z a ser testado
+    Z_gas = 2.0 # primeiro valor de z a ser testado
     func_gas = C1 * Z_gas ** 3 + C2 * Z_gas ** 2 + C3 * Z_gas + C4  # função de Newton-Raphson
 
     itMax = 100
@@ -47,7 +47,7 @@ def calculate_Z_gas(delta_1: float, delta_2: float, B_final_gas: float, A_final_
         print("iteration : ", it)
         print("func_liq : ", func_gas)
         print("Z_liq : ", Z_gas)
-        if func_gas < 1.0e-6:
+        if abs(func_gas) < 1.0e-6:
             return Z_gas
 
     print("Newton Raphson nao convergiu para calculate_Z_gas")

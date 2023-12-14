@@ -37,7 +37,12 @@ def calculate_phi_fug_liq(Bi:np.ndarray, B_final_liq:float, A_final_liq:float, d
     
     for i in range(len(list_wi)):
 
-        phi_fug_liq[i] = np.exp((Z_liq-1)*(Bi[i]/B_final_liq) - np.log(Z_liq-B_final_liq) - (A_final_liq/(Delta*B_final_liq))*(2*(phi_liq[i]/A_final_liq) - (Bi[i]/B_final_liq)) * np.log((Z_liq + (delta_1*B_final_liq))/(Z_liq + (delta_2*B_final_liq))))
+        term1 = (Z_liq-1)*(Bi[i]/B_final_liq)
+        term2 = np.log(Z_liq - B_final_liq)
+        term3 = (A_final_liq/(Delta*B_final_liq))*(2*(phi_liq[i]/A_final_liq) - (Bi[i]/B_final_liq))
+        term4 = np.log((Z_liq + (delta_1*B_final_liq))/(Z_liq + (delta_2*B_final_liq)))
+
+        phi_fug_liq[i] = np.exp(term1 - term2 - term3 * term4)
 
     return phi_fug_liq
     

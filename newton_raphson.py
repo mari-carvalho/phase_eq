@@ -7,22 +7,25 @@ import matplotlib.pyplot as plt
 # Newton-Rapshon: sem busca incremental
 def calculate_NR(list_wi:np.ndarray, list_Zi:np.ndarray, Ki:np.ndarray) -> float:
 
-  Ki = Ki
-  iter = 0
+  itMax = 1000
   Vr = 0.5
-  while True:
+  for it in range(itMax):
     V_old = Vr
-    f = 0
-    f_ = 0
+    f = 0.0
+    dfdV = 0.0
     for i in range(len(list_wi)):
-      f = f + (list_Zi[i]*(Ki[i]-1))/(1 - Vr + Vr*(Ki[i]))
-      f_ = - (f_ + ((list_Zi[i]*((Ki[i]-1)**2))/((1 + Vr*(Ki[i])-1)**2)))
-    Vr = Vr - f/f_
+      f += (list_Zi[i]*(Ki[i]-1.0))/(1.0 + Vr*(Ki[i]-1.0))
+      dfdV += - ((list_Zi[i]*((Ki[i]-1.0)**2))/((1.0 + Vr*(Ki[i]-1.0))**2))
+    Vr = Vr - f/dfdV
     err = abs(Vr-V_old)/100
-    iter = iter + 1
-    if err < (1e-6) or iter == 1000:
-      break
-  return Vr
+    print("iteration : ", it)
+    print("Vr : ", Vr)
+    print("err : ", err)
+    if err < (1e-6):
+      return Vr
+    
+  print("RR nao convergiu")
+  
 
 def calculate_L(Vr:float) -> float:
 

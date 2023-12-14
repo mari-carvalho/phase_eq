@@ -6,6 +6,6 @@ def calculate_Ki_novo(list_wi:np.ndarray, fugacity_liq:np.ndarray, fugacity_gas:
 
     for i in range(len(list_wi)):
 
-        Ki[i] = (Ki[-1])*((fugacity_liq[-1])/(fugacity_gas[-1]))
+        Ki[i] = (Ki[i])*((fugacity_liq[i])/(fugacity_gas[i]))
 
     return Ki
